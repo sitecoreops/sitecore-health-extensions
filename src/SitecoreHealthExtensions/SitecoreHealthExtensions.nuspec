@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SitecoreHealthExtensions</id>
+    <version>$version$</version>
+    <authors>Per Manniche Bering</authors>
+    <projectUrl>https://github.com/sitecoreops/sitecore-health-extensions</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Sitecore health endpoints.</description>
+    <tags>Sitecore</tags>
+  </metadata>
+</package>

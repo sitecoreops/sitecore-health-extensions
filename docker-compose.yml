@@ -1,0 +1,39 @@
+version: '2.4'
+
+services:
+
+  sql:
+    image: registry.valtech.dk/sitecore-xm1-sqldev:9.2.0-windowsservercore-1903
+    mem_limit: 2000MB
+    volumes:
+      - .\data\sql:C:\Data
+
+  solr:
+    image: registry.valtech.dk/sitecore-xm1-solr:9.2.0-nanoserver-1903
+    mem_limit: 1000MB
+    volumes:
+      - .\data\solr:C:\Data
+
+  cm:
+    image: sitecore-health-extensions:dev
+    build:
+      context: .\src\SitecoreHealthExtensions.Website
+      dockerfile: Dockerfile
+    entrypoint: cmd /c "start /B powershell Watch-Directory C:/src C:/inetpub/sc -ExcludeFiles 'Web.config', 'Dockerfile', '.dockerignore' & C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646"
+    environment:
+      - DEV_ENVIRONMENT=1
+      - VBCSCOMPILER_TTL=604800
+    volumes:
+      - .\src\SitecoreHealthExtensions.Website:C:\src
+      - .\data\cm:C:\inetpub\sc\App_Data\logs
+      - C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\Remote Debugger:C:\remote_debugger:ro
+    ports:
+      - "39001:80"
+    links:
+      - sql
+      - solr
+
+networks:
+  default:
+    name: nat
+    external: true

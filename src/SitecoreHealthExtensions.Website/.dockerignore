@@ -1,0 +1,5 @@
+.dockerignore
+.gitignore
+packages.config
+Dockerfile
+Web.config
