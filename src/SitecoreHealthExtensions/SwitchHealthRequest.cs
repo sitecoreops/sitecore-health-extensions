@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.Http;
 using Sitecore.Pipelines;
 using Sitecore.Pipelines.PreprocessRequest;
@@ -33,8 +32,10 @@ namespace SitecoreHealthExtensions
             {
                 return;
             }
-
+            
             args.AbortPipeline();
+            
+            context.Items["SitecoreOn"] = false;
 
             var pipelineArgs = new HealthCheckPipelineArgs();
 
